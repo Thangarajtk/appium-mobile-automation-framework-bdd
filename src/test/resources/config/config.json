@@ -1,0 +1,17 @@
+{
+  "platform": "android",
+  "android_app_package": "com.swaglabsmobileapp",
+  "android_app_activity": "com.swaglabsmobileapp.MainActivity",
+  "avd_launch_timeout": 180000,
+  "android_device_name": "Pixel_3a_API_30",
+  "android_udid": "emulator-5554",
+  "android_system_port": 7878,
+  "android_chromedriver_port": 8787,
+  "android_emulator": "yes",
+  "ios_device_name": "",
+  "ios_udid": "",
+  "ios_bundle_id": "",
+  "ios_webkit_debug_proxy_port": "",
+  "ios_wda_local_port": "",
+  "appium_url": "http://127.0.0.1:4723/wd/hub"
+}
