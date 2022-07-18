@@ -28,8 +28,8 @@ public final class Drivers {
         try {
             DesiredCapabilities capability = new DesiredCapabilities();
             capability.setCapability(PLATFORM_NAME, Platform.ANDROID);
-            capability.setCapability(MobileCapabilityType.DEVICE_NAME, getConfig(ConfigJson.ANDROID_DEVICE_NAME));
             capability.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.ANDROID_UIAUTOMATOR2); // Specific to Android
+            capability.setCapability(MobileCapabilityType.DEVICE_NAME, getConfig(ConfigJson.ANDROID_DEVICE_NAME));
             capability.setCapability(MobileCapabilityType.UDID, getConfig(ConfigJson.ANDROID_UDID)); // To uniquely identify device
             capability.setCapability(MobileCapabilityType.APP, FrameworkConstants.ANDROID_APK_PATH);
             capability.setCapability(AndroidMobileCapabilityType.APP_PACKAGE, getConfig(ConfigJson.ANDROID_APP_PACKAGE));
@@ -51,8 +51,8 @@ public final class Drivers {
         try {
             DesiredCapabilities capability = new DesiredCapabilities();
             capability.setCapability(PLATFORM_NAME, Platform.IOS);
-            capability.setCapability(MobileCapabilityType.DEVICE_NAME, getConfig(ConfigJson.IOS_DEVICE_NAME));
             capability.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.IOS_XCUI_TEST);
+            capability.setCapability(MobileCapabilityType.DEVICE_NAME, getConfig(ConfigJson.IOS_DEVICE_NAME));
             capability.setCapability(MobileCapabilityType.UDID, getConfig(ConfigJson.IOS_UDID));
             capability.setCapability(MobileCapabilityType.APP, FrameworkConstants.IOS_APP_PATH);
             capability.setCapability(IOSMobileCapabilityType.BUNDLE_ID, getConfig(ConfigJson.IOS_BUNDLE_ID));

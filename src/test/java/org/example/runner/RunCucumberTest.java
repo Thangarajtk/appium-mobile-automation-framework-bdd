@@ -33,7 +33,8 @@ public class RunCucumberTest {
     public static void initialize() {
         AppiumServerManager.startAppiumServer();
         if (Objects.isNull(DriverManager.getDriver())) {
-            DriverFactory.initializeDriver(MobilePlatformName.valueOf(getConfig(ConfigJson.PLATFORM).toUpperCase()));
+            DriverFactory.initializeDriver(MobilePlatformName
+                    .valueOf(getConfig(ConfigJson.PLATFORM).toUpperCase()));
         }
     }
 
