@@ -21,7 +21,6 @@ import static io.cucumber.junit.CucumberOptions.SnippetType.CAMELCASE;
 @CucumberOptions(plugin = {"pretty"
         , "summary"
         , "html:target/cucumber/report.html"},
-        snippets = CAMELCASE,
         features = {"src/test/resources/feature"},
         glue = {"org.example.stepdefinitions"},
         monochrome = true,
@@ -34,7 +33,8 @@ public class RunCucumberTest {
         AppiumServerManager.startAppiumServer();
         if (Objects.isNull(DriverManager.getDriver())) {
             DriverFactory.initializeDriver(MobilePlatformName
-                    .valueOf(getConfig(ConfigJson.PLATFORM).toUpperCase()));
+                    .valueOf((System.getProperty("platformName") != null ? System.getProperty("platformName") :
+                            getConfig(ConfigJson.PLATFORM)).toUpperCase()));
         }
     }
 

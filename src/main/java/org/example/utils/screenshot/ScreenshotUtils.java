@@ -21,10 +21,6 @@ public final class ScreenshotUtils {
         FileUtils.copyFile(source, destination);
     }
 
-    public static String captureScreenshotAsBase64() {
-        return ((TakesScreenshot) DriverManager.getDriver()).getScreenshotAs(OutputType.BASE64);
-    }
-
     public static byte[] captureScreenshotAsBytes() {
         return DriverManager.getDriver().getScreenshotAs(OutputType.BYTES);
     }

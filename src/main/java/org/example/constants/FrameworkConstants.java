@@ -39,7 +39,7 @@ public final class FrameworkConstants {
     public static String getScreenRecordingsPath() {
         File screenRecordingsDir = new File(SCREEN_RECORDINGS_PATH);
         if (!screenRecordingsDir.exists()) {
-            screenRecordingsDir.mkdir()
+            screenRecordingsDir.mkdir();
         }
         return SCREEN_RECORDINGS_PATH;
     }
