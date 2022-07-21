@@ -1,9 +1,9 @@
-package org.example.pageObjects;
+package org.example.pageobjects;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import org.example.enums.WaitStrategy;
-import org.example.pageObjects.screen.ScreenActions;
+import org.example.pageobjects.screen.ScreenActions;
 
 public class ProductPage extends ScreenActions {
 

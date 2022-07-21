@@ -1,5 +1,5 @@
 @test
-Feature: Login scenarios
+Feature: Login test
 
   Scenario Outline: Login with invalid username
     When User enter username as "<username>"

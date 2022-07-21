@@ -2,8 +2,8 @@ package org.example.stepdefinitions;
 
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.example.pageObjects.LoginPage;
-import org.example.pageObjects.ProductPage;
+import org.example.pageobjects.LoginPage;
+import org.example.pageobjects.ProductPage;
 import org.junit.Assert;
 
 public class LoginStepDefinition {

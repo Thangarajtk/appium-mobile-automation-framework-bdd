@@ -1,8 +1,7 @@
-package org.example.pageObjects.screen;
+package org.example.pageobjects.screen;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Ordering;
-import io.appium.java_client.InteractsWithApps;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.MultiTouchAction;
 import io.appium.java_client.TouchAction;
@@ -95,21 +94,13 @@ public class ScreenActions {
         return element.getAttribute(attributeName);
     }
 
-    protected boolean isElementSelected(MobileElement element) {
-        return element.isSelected();
-    }
-
-    protected boolean isElementEnabled(MobileElement element) {
-        return element.isEnabled();
-    }
-
     protected WebElement getActiveElement() {
         return DriverManager.getDriver().switchTo().activeElement();
     }
 
-    protected void moveMouseToElement(WebElement element, int xoffset, int yoffset) {
+    protected void moveMouseToElement(WebElement element, int x_offset, int y_offset) {
         new Actions(DriverManager.getDriver())
-                .moveToElement(element, xoffset, yoffset)
+                .moveToElement(element, x_offset, y_offset)
                 .perform();
     }
 
@@ -139,9 +130,9 @@ public class ScreenActions {
     }
 
     protected void touchScreenScroll(WebElement element, int x, int y) {
-        new TouchActions(DriverManager.getDriver())
-                .scroll(element, x, y)
-                .perform();
+        TouchActions touchActions = new TouchActions(DriverManager.getDriver());
+        touchActions.scroll(element, x, y);
+        touchActions.perform();
     }
 
     protected void hideKeyboard() {
@@ -154,34 +145,34 @@ public class ScreenActions {
                 + ".setAsHorizontalList().scrollIntoView(new UiSelector().text(\"" + selectionText + "\"))").click();
     }
 
-    protected void click(MobileElement element, String elementName) {
+    protected void click(MobileElement element) {
         element.click();
     }
 
-    public void click(String element, MobileFindBy elementType, String elementName) {
-        click(getMobileElement(element, elementType), elementName);
+    protected void click(String element, MobileFindBy elementType) {
+        click(getMobileElement(element, elementType));
     }
 
-    protected void enter(MobileElement element, String value, String elementName) {
+    protected void enter(MobileElement element, String value) {
         WaitFactory.explicitlyWaitForElement(WaitStrategy.VISIBLE, element);
         doClear(element);
         element.sendKeys(value);
     }
 
-    protected void enterValueAndPressEnter(MobileElement element, String value, String elementName) {
+    protected void enterValueAndPressEnter(MobileElement element, String value) {
         doClear(element);
         element.sendKeys(value, Keys.ENTER);
     }
 
-    protected void enter(String element, MobileFindBy elementType, String value, String elementName) {
-        enter(getMobileElement(element, elementType), value, elementName);
+    protected void enter(String element, MobileFindBy elementType, String value) {
+        enter(getMobileElement(element, elementType), value);
     }
 
-    public boolean isTextPresent(String containsText) {
+    protected boolean isTextPresent(String containsText) {
         return DriverManager.getDriver().getPageSource().contains(containsText);
     }
 
-    public void powerStateAndroid(String powerState) {
+    protected void powerStateAndroid(String powerState) {
         switch (powerState) {
             case "ON":
                 ((AndroidDriver<MobileElement>) DriverManager.getDriver()).setPowerAC(PowerACState.ON);
@@ -197,49 +188,47 @@ public class ScreenActions {
     /**
      * Swipe Down
      */
-    public void swipeDown() {
+    protected void swipeDown() {
         DriverManager.getDriver().executeScript("mobile:scroll", ImmutableMap.of("direction", "down"));
     }
 
     /**
      * Swipe Up
      */
-    public void swipeUP() {
+    protected void swipeUP() {
         DriverManager.getDriver().executeScript("mobile:scroll", ImmutableMap.of("direction", "up"));
     }
 
     /**
      * Accept Alert
      */
-    public void acceptAlert() {
+    protected void acceptAlert() {
         DriverManager.getDriver().executeScript("mobile:acceptAlert");
     }
 
     /**
      * Dismiss Alert
      */
-    public void dismissAlert() {
+    protected void dismissAlert() {
         DriverManager.getDriver().executeScript("mobile:dismissAlert");
     }
 
     /**
      * Long press key
-     *
      * @param element element
      */
-    public void longPress(MobileElement element) {
-        new TouchAction(DriverManager.getDriver())
+    protected void longPress(MobileElement element) {
+        new TouchAction<>(DriverManager.getDriver())
                 .longPress(ElementOption.element(element))
                 .perform();
     }
 
     /**
      * Scroll to specific location
-     *
      * @param element element
      * @param value   location
      */
-    public void scrollToLocation(MobileElement element, int value) {
+    protected void scrollToLocation(MobileElement element, int value) {
         HashMap<String, Double> scrollElement = new HashMap<>();
         scrollElement.put("startX", 0.50);
         scrollElement.put("startY", 0.95);
@@ -249,11 +238,9 @@ public class ScreenActions {
         DriverManager.getDriver().executeScript("mobile: swipe", scrollElement);
     }
 
-    public boolean checkListIsSorted(List<String> listToSort) {
+    protected boolean checkListIsSorted(List<String> listToSort) {
         if (!listToSort.isEmpty()) {
-            if (Ordering.natural().isOrdered(listToSort)) {
-                return true;
-            }
+            return Ordering.natural().isOrdered(listToSort);
         }
         return false;
     }
@@ -267,9 +254,8 @@ public class ScreenActions {
      * @param b2   axis 4
      * @param time time
      */
-    @SuppressWarnings("rawtypes")
     private void touchActions(int a1, int b1, int a2, int b2, int time) {
-        TouchAction touchAction = new TouchAction(DriverManager.getDriver());
+        TouchAction<?> touchAction = new TouchAction<>(DriverManager.getDriver());
         touchAction.press(PointOption.point(a1, b1)).
                 waitAction(WaitOptions.waitOptions(Duration.ofMillis(time))).
                 moveTo(PointOption.point(a2, b2)).release();
@@ -277,7 +263,7 @@ public class ScreenActions {
     }
 
     /**
-     * Swipe with axix
+     * Swipe with axis
      *
      * @param x    x axis
      * @param y    y axis
@@ -296,8 +282,8 @@ public class ScreenActions {
      *
      * @param androidElement element
      */
-    public void tapByElement(MobileElement androidElement) {
-        new TouchAction(DriverManager.getDriver())
+    protected void tapByElement(MobileElement androidElement) {
+        new TouchAction<>(DriverManager.getDriver())
                 .tap(TapOptions.tapOptions().withElement(ElementOption.element(androidElement)))
                 .waitAction(WaitOptions.waitOptions(Duration.ofMillis(250))).perform();
     }
@@ -308,8 +294,8 @@ public class ScreenActions {
      * @param x x
      * @param y y
      */
-    public void tapByCoordinates(int x, int y) {
-        new TouchAction(DriverManager.getDriver())
+    protected void tapByCoordinates(int x, int y) {
+        new TouchAction<>(DriverManager.getDriver())
                 .tap(PointOption.point(x, y))
                 .waitAction(WaitOptions.waitOptions(Duration.ofMillis(250))).perform();
     }
@@ -320,8 +306,8 @@ public class ScreenActions {
      * @param element element
      * @param seconds time
      */
-    public void pressByElement(MobileElement element, long seconds) {
-        new TouchAction(DriverManager.getDriver())
+    protected void pressByElement(MobileElement element, long seconds) {
+        new TouchAction<>(DriverManager.getDriver())
                 .press(ElementOption.element(element))
                 .waitAction(WaitOptions.waitOptions(Duration.ofSeconds(seconds)))
                 .release()
@@ -334,8 +320,8 @@ public class ScreenActions {
      * @param element element
      * @param seconds time
      */
-    public void longPressByElement(MobileElement element, long seconds) {
-        new TouchAction(DriverManager.getDriver())
+    protected void longPressByElement(MobileElement element, long seconds) {
+        new TouchAction<>(DriverManager.getDriver())
                 .longPress(ElementOption.element(element))
                 .waitAction(WaitOptions.waitOptions(Duration.ofSeconds(seconds)))
                 .release()
@@ -349,8 +335,8 @@ public class ScreenActions {
      * @param y       y
      * @param seconds time
      */
-    public void pressByCoordinates(int x, int y, long seconds) {
-        new TouchAction(DriverManager.getDriver())
+    protected void pressByCoordinates(int x, int y, long seconds) {
+        new TouchAction<>(DriverManager.getDriver())
                 .press(PointOption.point(x, y))
                 .waitAction(WaitOptions.waitOptions(Duration.ofSeconds(seconds)))
                 .release()
@@ -364,12 +350,12 @@ public class ScreenActions {
      * @param endPercentage    end
      * @param anchorPercentage anchor
      */
-    public void horizontalSwipeByPercentage(double startPercentage, double endPercentage, double anchorPercentage) {
+    protected void horizontalSwipeByPercentage(double startPercentage, double endPercentage, double anchorPercentage) {
         Dimension size = DriverManager.getDriver().manage().window().getSize();
         int anchor = (int) (size.height * anchorPercentage);
         int startPoint = (int) (size.width * startPercentage);
         int endPoint = (int) (size.width * endPercentage);
-        new TouchAction(DriverManager.getDriver())
+        new TouchAction<>(DriverManager.getDriver())
                 .press(PointOption.point(startPoint, anchor))
                 .waitAction(WaitOptions.waitOptions(Duration.ofMillis(1000)))
                 .moveTo(PointOption.point(endPoint, anchor))
@@ -383,14 +369,13 @@ public class ScreenActions {
      * @param endPercentage    end
      * @param anchorPercentage anchor
      */
-
-    public void verticalSwipeByPercentages(double startPercentage, double endPercentage, double anchorPercentage) {
+    protected void verticalSwipeByPercentages(double startPercentage, double endPercentage, double anchorPercentage) {
         Dimension size = DriverManager.getDriver().manage().window().getSize();
         int anchor = (int) (size.width * anchorPercentage);
         int startPoint = (int) (size.height * startPercentage);
         int endPoint = (int) (size.height * endPercentage);
 
-        new TouchAction(DriverManager.getDriver())
+        new TouchAction<>(DriverManager.getDriver())
                 .press(PointOption.point(anchor, startPoint))
                 .waitAction(WaitOptions.waitOptions(Duration.ofMillis(1000)))
                 .moveTo(PointOption.point(anchor, endPoint))
@@ -403,15 +388,14 @@ public class ScreenActions {
      * @param startElement start
      * @param endElement   end
      */
-    @SuppressWarnings("rawtypes")
-    public void swipeByElements(MobileElement startElement, MobileElement endElement) {
+    protected void swipeByElements(MobileElement startElement, MobileElement endElement) {
         int startX = startElement.getLocation().getX() + (startElement.getSize().getWidth() / 2);
         int startY = startElement.getLocation().getY() + (startElement.getSize().getHeight() / 2);
 
         int endX = endElement.getLocation().getX() + (endElement.getSize().getWidth() / 2);
         int endY = endElement.getLocation().getY() + (endElement.getSize().getHeight() / 2);
 
-        new TouchAction(DriverManager.getDriver())
+        new TouchAction<>(DriverManager.getDriver())
                 .press(PointOption.point(startX, startY))
                 .waitAction(WaitOptions.waitOptions(Duration.ofMillis(1000)))
                 .moveTo(PointOption.point(endX, endY))
@@ -419,13 +403,12 @@ public class ScreenActions {
     }
 
     /**
-     * Multi touch by element
+     * Multitouch by element
      *
      * @param androidElement element
      */
-    @SuppressWarnings("rawtypes")
-    public void multiTouchByElement(MobileElement androidElement) {
-        TouchAction press = new TouchAction(DriverManager.getDriver())
+    protected void multiTouchByElement(MobileElement androidElement) {
+        TouchAction<?> press = new TouchAction<>(DriverManager.getDriver())
                 .press(ElementOption.element(androidElement))
                 .waitAction(WaitOptions.waitOptions(Duration.ofSeconds(1)))
                 .release();
@@ -485,11 +468,11 @@ public class ScreenActions {
         }
     }
 
-        protected void closeApp () {
-            ((InteractsWithApps) DriverManager.getDriver()).closeApp();
-        }
-
-        protected void launchApp () {
-            ((InteractsWithApps) DriverManager.getDriver()).launchApp();
-        }
+    protected void closeApp() {
+        DriverManager.getDriver().closeApp();
     }
+
+    protected void launchApp() {
+        DriverManager.getDriver().launchApp();
+    }
+}

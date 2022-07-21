@@ -1,10 +1,10 @@
-package org.example.pageObjects;
+package org.example.pageobjects;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.iOSXCUITFindBy;
 import org.example.enums.WaitStrategy;
-import org.example.pageObjects.screen.ScreenActions;
+import org.example.pageobjects.screen.ScreenActions;
 
 public class LoginPage extends ScreenActions {
 
@@ -28,17 +28,17 @@ public class LoginPage extends ScreenActions {
     }
 
     public LoginPage setUsername(String username) {
-        enter(txtFieldUsername, username, "Username");
+        enter(txtFieldUsername, username);
         return this;
     }
 
     public LoginPage setPassword(String password) {
-        enter(txtFieldPassword, password, "Password");
+        enter(txtFieldPassword, password);
         return this;
     }
 
     public ProductPage tapOnLogin() {
-        click(btnLogin, "Login");
+        click(btnLogin);
         return new ProductPage();
     }
 
