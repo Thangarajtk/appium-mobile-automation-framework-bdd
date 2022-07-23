@@ -122,3 +122,18 @@ builder.withArgument(GeneralServerFlag.ALLOW_INSECURE, "chromedriver_autodownloa
 ## :pushpin: Start Appium server programmatically
 Use `AppiumServiceBuilder` and `AppiumDriverLocalService` to start the server programmatically
 Set environment variable `APPIUM_HOME = <path to npm folder>\node_modules\appium\build\lib` where `main.js` file is present
+
+## :pushpin: Running tests through Test Runner (JUnit)
+:point_right: Run `RunCucumberTest` in the path `appium-mobile-automation-framework-bdd\src\test\java\org\example\runner\RunCucumberTest.java`
+
+## :pushpin: Running tests in parallel on multiple devices through Maven CLI
+:point_right: Run test using following command 
+```
+mvn clean test -DplatformName=<platform name> -DdeviceName=<device name> -Dudid=<udid> -DsystemPort=<system port number> -DchromedriverPort=<chromedriver port>
+
+Example:
+mvn clean test -DplatformName=android -DdeviceName=Pixel_4 -Dudid=emulator-5554 -DsystemPort=7070 -DchromedriverPort=7071
+```
+
+## :pushpin: Config Json for updating DesiredCapabilities
+<img width="437" alt="Capture" src="https://user-images.githubusercontent.com/48508827/180614714-f6acf466-461f-4523-b3c3-f08d8e004f27.PNG">

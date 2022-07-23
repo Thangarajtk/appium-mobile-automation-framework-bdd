@@ -10,12 +10,8 @@ import org.example.utils.AppiumServerManager;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
-
 import java.util.Objects;
-
 import static org.example.utils.configloader.JsonParser.getConfig;
-
-import static io.cucumber.junit.CucumberOptions.SnippetType.CAMELCASE;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(plugin = {"pretty"
