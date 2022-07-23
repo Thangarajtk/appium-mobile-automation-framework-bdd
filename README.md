@@ -135,4 +135,5 @@ Example:
 mvn clean test -DplatformName=android -DdeviceName=Pixel_4 -Dudid=emulator-5554 -DsystemPort=7070 -DchromedriverPort=7071
 ```
 
-## :pushpin: Config Json for providing DesiredCapabilities
+## :pushpin: Config Json for updating DesiredCapabilities
+<img width="437" alt="Capture" src="https://user-images.githubusercontent.com/48508827/180614714-f6acf466-461f-4523-b3c3-f08d8e004f27.PNG">
