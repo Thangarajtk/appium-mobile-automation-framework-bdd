@@ -27,20 +27,16 @@ public final class FrameworkConstants {
     private static final String SERVER_LOGS_PATH = PROJECT_PATH + File.separator + "server-logs";
 
     public static String getAppiumServerLogsPath() {
-        if (PropertyUtils.getPropertyValue(ConfigProperties.OVERRIDE_SERVER_LOG).equalsIgnoreCase("yes")) {
+        if (PropertyUtils.getPropertyValue(ConfigProperties.OVERRIDE_SERVER_LOG).equalsIgnoreCase("yes"))
             return SERVER_LOGS_PATH + File.separator + "server.log";
-        } else {
-            return SERVER_LOGS_PATH + File.separator + getCurrentDateTime() + File.separator + "server.log";
-        }
+        else return SERVER_LOGS_PATH + File.separator + getCurrentDateTime() + File.separator + "server.log";
     }
 
     private static final String SCREEN_RECORDINGS_PATH = PROJECT_PATH + File.separator + "screen-recordings";
 
     public static String getScreenRecordingsPath() {
         File screenRecordingsDir = new File(SCREEN_RECORDINGS_PATH);
-        if (!screenRecordingsDir.exists()) {
-            screenRecordingsDir.mkdir();
-        }
+        if (!screenRecordingsDir.exists()) screenRecordingsDir.mkdir();
         return SCREEN_RECORDINGS_PATH;
     }
 
