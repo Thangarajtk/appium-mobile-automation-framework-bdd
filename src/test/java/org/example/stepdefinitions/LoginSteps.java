@@ -6,7 +6,7 @@ import org.example.pageobjects.LoginPage;
 import org.example.pageobjects.ProductPage;
 import org.junit.Assert;
 
-public class LoginStepDefinition {
+public class LoginSteps {
 
     @When("^User enter username as \"([^\"]*)\"$")
     public void userEnterUsernameAs(String username) {

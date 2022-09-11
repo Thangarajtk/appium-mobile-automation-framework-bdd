@@ -10,13 +10,16 @@ import org.example.utils.AppiumServerManager;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
+
 import java.util.Objects;
+
 import static org.example.utils.configloader.JsonParser.getConfig;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(plugin = {"pretty"
         , "summary"
-        , "html:target/cucumber/report.html"},
+        , "html:target/cucumber/report.html",
+        "me.jvt.cucumber.report.PrettyReports:target/cucumber"},
         features = {"src/test/resources/feature"},
         glue = {"org.example.stepdefinitions"},
         monochrome = true,
