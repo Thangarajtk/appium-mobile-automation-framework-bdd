@@ -12,6 +12,7 @@ import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 
 import java.util.Objects;
+import java.util.Optional;
 
 import static org.example.utils.configloader.JsonParser.getConfig;
 
@@ -31,9 +32,9 @@ public class RunCucumberTest {
     public static void initialize() {
         AppiumServerManager.startAppiumServer();
         if (Objects.isNull(DriverManager.getDriver())) {
-            DriverFactory.initializeDriver(MobilePlatformName
-                    .valueOf((System.getProperty("platformName") != null ? System.getProperty("platformName") :
-                            getConfig(ConfigJson.PLATFORM)).toUpperCase()));
+            DriverFactory.initializeDriver(MobilePlatformName.valueOf(
+                    Optional.ofNullable(System.getProperty("platformName"))
+                            .orElse(getConfig(ConfigJson.PLATFORM)).toUpperCase()));
         }
     }
 
