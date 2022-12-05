@@ -28,7 +28,7 @@ public final class Drivers {
 
     public static AppiumDriver<MobileElement> createAndroidDriver() {
         try {
-            DesiredCapabilities capability = new DesiredCapabilities();
+            var capability = new DesiredCapabilities();
             capability.setCapability(PLATFORM_NAME, Platform.ANDROID);
             capability.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.ANDROID_UIAUTOMATOR2); // Specific to Android
             capability.setCapability(MobileCapabilityType.DEVICE_NAME, (System.getProperty("deviceName") != null ? System.getProperty("deviceName") :
@@ -56,7 +56,7 @@ public final class Drivers {
 
     public static AppiumDriver<MobileElement> createIOSDriver() {
         try {
-            DesiredCapabilities capability = new DesiredCapabilities();
+            var capability = new DesiredCapabilities();
             capability.setCapability(PLATFORM_NAME, Platform.IOS);
             capability.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.IOS_XCUI_TEST);
             capability.setCapability(MobileCapabilityType.DEVICE_NAME, (System.getProperty("deviceName") != null ? System.getProperty("deviceName") :

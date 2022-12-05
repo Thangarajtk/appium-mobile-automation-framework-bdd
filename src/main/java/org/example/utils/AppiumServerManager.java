@@ -19,7 +19,7 @@ public final class AppiumServerManager {
     private static AppiumDriverLocalService service;
 
     static boolean checkIfServerIsRunning() {
-        boolean isServerRunning = false;
+        var isServerRunning = false;
         try {
             ServerSocket serverSocket = new ServerSocket(FrameworkConstants.APPIUM_SERVER_PORT);
             serverSocket.close();

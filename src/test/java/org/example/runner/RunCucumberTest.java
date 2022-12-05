@@ -24,7 +24,7 @@ import static org.example.utils.configloader.JsonParser.getConfig;
         features = {"src/test/resources/feature"},
         glue = {"org.example.stepdefinitions"},
         monochrome = true,
-        tags = "@test"
+        tags = "@Login"
 )
 public class RunCucumberTest {
 
