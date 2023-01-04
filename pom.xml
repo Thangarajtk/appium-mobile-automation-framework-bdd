@@ -15,14 +15,14 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-        <cucumber.version>7.6.0</cucumber.version>
+        <cucumber.version>7.8.1</cucumber.version>
         <appium-java-client.version>7.6.0</appium-java-client.version>
         <extent-reports.version>5.0.9</extent-reports.version>
-        <jackson.version>2.13.4</jackson.version>
+        <jackson.version>2.14.0</jackson.version>
         <lombok.version>1.18.24</lombok.version>
         <commons-io.version>2.11.0</commons-io.version>
-        <json.version>20220320</json.version>
-        <gherkin.version>24.0.0</gherkin.version>
+        <json.version>20220924</json.version>
+        <gherkin.version>25.0.2</gherkin.version>
         <reporting-plugin.version>7.3.0</reporting-plugin.version>
     </properties>
 
@@ -45,7 +45,7 @@
         <!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-core -->
         <dependency>
             <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-core</artifactId>
+            <artifactId>cucumber-picocontainer</artifactId>
             <version>${cucumber.version}</version>
         </dependency>
 

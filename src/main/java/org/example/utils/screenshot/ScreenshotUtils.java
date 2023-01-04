@@ -16,8 +16,8 @@ public final class ScreenshotUtils {
     // This class is to handle the change in third party library
     @SneakyThrows
     public static void captureScreenshotAsFile(String testName) {
-        File source = ((TakesScreenshot) DriverManager.getDriver()).getScreenshotAs(OutputType.FILE);
-        File destination = new File(FrameworkConstants.SCREENSHOT_PATH + File.separator + testName + ".png");
+        var source = ((TakesScreenshot) DriverManager.getDriver()).getScreenshotAs(OutputType.FILE);
+        var destination = new File(FrameworkConstants.SCREENSHOT_PATH + File.separator + testName + ".png");
         FileUtils.copyFile(source, destination);
     }
 

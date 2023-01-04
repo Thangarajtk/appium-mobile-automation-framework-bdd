@@ -32,4 +32,9 @@ public class LoginSteps {
     public void userShouldSeeProductsPageWithTitle(String title) {
         Assert.assertEquals(new ProductPage().getProductPageTitle(), title);
     }
+
+    @When("User enter username: {string} and password: {string}")
+    public void userEnterUsernameAndPassword(String username, String password) {
+        new LoginPage().setPassword(username).setPassword(password);
+    }
 }
