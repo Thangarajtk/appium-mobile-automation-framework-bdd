@@ -18,13 +18,13 @@ public final class ScreenRecordingUtils {
     }
 
     public static void stopScreenRecording(String methodName) {
-        String recordedVideoFile = ((CanRecordScreen) DriverManager.getDriver()).stopRecordingScreen();
-        String pathToWriteVideoFile = FrameworkConstants.getScreenRecordingsPath() + File.separator + methodName + ".mp4";
+        var recordedVideoFile = ((CanRecordScreen) DriverManager.getDriver()).stopRecordingScreen();
+        var pathToWriteVideoFile = FrameworkConstants.getScreenRecordingsPath() + File.separator + methodName + ".mp4";
         writeToOutputStream(pathToWriteVideoFile, recordedVideoFile);
     }
 
     static void writeToOutputStream(String filePathToWrite, String recordedVideoFile) {
-        try (FileOutputStream outputStream = new FileOutputStream(filePathToWrite)) {
+        try (var outputStream = new FileOutputStream(filePathToWrite)) {
             outputStream.write(Base64.decodeBase64(recordedVideoFile));
         } catch (IOException e) {
             e.printStackTrace();

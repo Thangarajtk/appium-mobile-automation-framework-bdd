@@ -16,7 +16,7 @@ public final class DeviceManager {
         deviceName.set(device);
     }
 
-    public static void unloadDeviceName() {
+    public static void removeDeviceName() {
         deviceName.remove();
     }
 }

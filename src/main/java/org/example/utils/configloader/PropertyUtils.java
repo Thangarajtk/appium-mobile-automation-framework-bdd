@@ -16,7 +16,7 @@ public final class PropertyUtils {
     private static final Properties property = new Properties();
 
     static void loadProperties() {
-        try (FileInputStream input = new FileInputStream(FrameworkConstants.CONFIG_PROPERTIES_PATH)) {
+        try (var input = new FileInputStream(FrameworkConstants.CONFIG_PROPERTIES_PATH)) {
             property.load(input);
         } catch (IOException e) {
             throw new PropertyFileUsageException("IOException occurred while loading Property file in the specified path");

@@ -35,8 +35,9 @@ public final class FrameworkConstants {
     private static final String SCREEN_RECORDINGS_PATH = PROJECT_PATH + File.separator + "screen-recordings";
 
     public static String getScreenRecordingsPath() {
-        File screenRecordingsDir = new File(SCREEN_RECORDINGS_PATH);
-        if (!screenRecordingsDir.exists()) screenRecordingsDir.mkdir();
+        var screenRecordingsDir = new File(SCREEN_RECORDINGS_PATH);
+        if (!screenRecordingsDir.exists())
+            screenRecordingsDir.mkdir();
         return SCREEN_RECORDINGS_PATH;
     }
 

@@ -16,7 +16,7 @@ public final class PlatformManager {
         platformName.set(platform);
     }
 
-    public static void unloadPlatformName() {
+    public static void removePlatformName() {
         platformName.remove();
     }
 }
