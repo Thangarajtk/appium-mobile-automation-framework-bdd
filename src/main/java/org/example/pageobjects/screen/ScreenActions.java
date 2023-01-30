@@ -25,32 +25,49 @@ import org.openqa.selenium.interactions.touch.TouchActions;
 import org.openqa.selenium.support.PageFactory;
 
 import java.time.Duration;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
+import java.util.function.Function;
+
+import static org.example.enums.MobileFindBy.ACCESSIBILITY_ID;
+import static org.example.enums.MobileFindBy.CLASS;
+import static org.example.enums.MobileFindBy.CSS;
+import static org.example.enums.MobileFindBy.ID;
+import static org.example.enums.MobileFindBy.NAME;
+import static org.example.enums.MobileFindBy.XPATH;
 
 public class ScreenActions {
 
+  private final Map<MobileFindBy, Function<String, MobileElement>> mobileFindByFunctionMap = new EnumMap<>(MobileFindBy.class);
+  private final Function<String, MobileElement> findByXpath =
+    mobileElement -> DriverManager.getDriver().findElementByXPath(mobileElement);
+  private final Function<String, MobileElement> findByCss =
+    mobileElement -> DriverManager.getDriver().findElementByCssSelector(mobileElement);
+  private final Function<String, MobileElement> findById = mobileElement -> DriverManager.getDriver().findElementById(mobileElement);
+  private final Function<String, MobileElement> findByName =
+    mobileElement -> DriverManager.getDriver().findElementByName(mobileElement);
+  private final Function<String, MobileElement> findByAccessibilityId =
+    mobileElement -> DriverManager.getDriver().findElementByAccessibilityId(mobileElement);
+  private final Function<String, MobileElement> findByClassName =
+    mobileElement -> DriverManager.getDriver().findElementByClassName(mobileElement);
   protected ScreenActions() {
     PageFactory.initElements(new AppiumFieldDecorator(DriverManager.getDriver()), this);
   }
 
   private MobileElement getMobileElement(String mobileElement, MobileFindBy mobileFindBy) {
-    switch (mobileFindBy) {
-      case XPATH:
-        return DriverManager.getDriver().findElementByXPath(mobileElement);
-      case CSS:
-        return DriverManager.getDriver().findElementByCssSelector(mobileElement);
-      case ID:
-        return DriverManager.getDriver().findElementById(mobileElement);
-      case NAME:
-        return DriverManager.getDriver().findElementByName(mobileElement);
-      case ACCESSIBILITY_ID:
-        return DriverManager.getDriver().findElementByAccessibilityId(mobileElement);
-      case CLASS:
-        return DriverManager.getDriver().findElementByClassName(mobileElement);
+    if (mobileFindByFunctionMap.isEmpty()) {
+      mobileFindByFunctionMap.put(XPATH, findByXpath);
+      mobileFindByFunctionMap.put(CSS, findByCss);
+      mobileFindByFunctionMap.put(ID, findById);
+      mobileFindByFunctionMap.put(NAME, findByName);
+      mobileFindByFunctionMap.put(ACCESSIBILITY_ID, findByAccessibilityId);
+      mobileFindByFunctionMap.put(CLASS, findByClassName);
     }
-    return null;
+    return mobileFindByFunctionMap.get(mobileFindBy).apply(mobileElement);
   }
 
   protected void waitForPageLoad(int waitTime) {
@@ -78,16 +95,9 @@ public class ScreenActions {
   }
 
   protected void setOrientation(ScreenOrientation screenOrientationType) {
-    switch (screenOrientationType) {
-      case LANDSCAPE:
-        DriverManager.getDriver().rotate(ScreenOrientation.LANDSCAPE);
-        break;
-      case PORTRAIT:
-        DriverManager.getDriver().rotate(ScreenOrientation.PORTRAIT);
-        break;
-      default:
-        throw new IllegalStateException("Unexpected value in Screen Orientation: " + screenOrientationType);
-    }
+    Consumer<ScreenOrientation> screenOrientationConsumer = screenOrientation ->
+      DriverManager.getDriver().rotate(screenOrientation);
+    screenOrientationConsumer.accept(screenOrientationType);
   }
 
   protected void backgroundApp() {
@@ -134,9 +144,9 @@ public class ScreenActions {
   }
 
   protected void touchScreenScroll(WebElement element, int x, int y) {
-    TouchActions touchActions = new TouchActions(DriverManager.getDriver());
-    touchActions.scroll(element, x, y);
-    touchActions.perform();
+    new TouchActions(DriverManager.getDriver())
+      .scroll(element, x, y)
+      .perform();
   }
 
   protected void hideKeyboard() {
@@ -177,17 +187,10 @@ public class ScreenActions {
     return DriverManager.getDriver().getPageSource().contains(containsText);
   }
 
-  protected void powerStateAndroid(String powerState) {
-    switch (powerState) {
-      case "ON":
-        ((AndroidDriver<MobileElement>) DriverManager.getDriver()).setPowerAC(PowerACState.ON);
-        break;
-      case "OFF":
-        ((AndroidDriver<MobileElement>) DriverManager.getDriver()).setPowerAC(PowerACState.OFF);
-        break;
-      default:
-        break;
-    }
+  protected void powerStateAndroid(PowerACState powerACState) {
+    Consumer<PowerACState> powerStateConsumer = state ->
+      ((AndroidDriver<MobileElement>) DriverManager.getDriver()).setPowerAC(state);
+    powerStateConsumer.accept(powerACState);
   }
 
   /**
@@ -262,11 +265,11 @@ public class ScreenActions {
    * @param time time
    */
   private void touchActions(int a1, int b1, int a2, int b2, int time) {
-    TouchAction<?> touchAction = new TouchAction<>(DriverManager.getDriver());
-    touchAction.press(PointOption.point(a1, b1)).
-      waitAction(WaitOptions.waitOptions(Duration.ofMillis(time))).
-      moveTo(PointOption.point(a2, b2)).release();
-    touchAction.perform();
+    new TouchAction<>(DriverManager.getDriver())
+      .press(PointOption.point(a1, b1))
+      .waitAction(WaitOptions.waitOptions(Duration.ofMillis(time)))
+      .moveTo(PointOption.point(a2, b2)).release()
+      .perform();
   }
 
   /**

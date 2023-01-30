@@ -2,7 +2,7 @@ package org.example.runner;
 
 import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;
-import org.example.driver.factory.DriverFactory;
+import org.example.driver.Drivers;
 import org.example.driver.manager.DriverManager;
 import org.example.enums.ConfigJson;
 import org.example.enums.MobilePlatformName;
@@ -29,19 +29,19 @@ import static org.example.utils.configloader.JsonParser.getConfig;
 public class RunCucumberTest {
 
   @BeforeClass
-  public static void initialize() {
+  public static void setUp() {
     AppiumServerManager.startAppiumServer();
     if (Objects.isNull(DriverManager.getDriver())) {
-      DriverFactory.initializeDriver(MobilePlatformName.valueOf(
+      Drivers.initializeDriver(MobilePlatformName.valueOf(
         Optional.ofNullable(System.getProperty("platformName"))
           .orElse(getConfig(ConfigJson.PLATFORM)).toUpperCase()));
     }
   }
 
   @AfterClass
-  public static void quit() {
+  public static void tearDown() {
     if (Objects.nonNull(DriverManager.getDriver())) {
-      DriverFactory.quitDriver();
+      Drivers.quitDriver();
     }
     AppiumServerManager.stopAppiumServer();
   }
