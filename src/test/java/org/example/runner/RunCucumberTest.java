@@ -17,32 +17,32 @@ import java.util.Optional;
 import static org.example.utils.configloader.JsonParser.getConfig;
 
 @RunWith(Cucumber.class)
-@CucumberOptions(plugin = {"pretty"
-        , "summary"
-        , "html:target/cucumber/report.html",
-        "me.jvt.cucumber.report.PrettyReports:target/cucumber"},
-        features = {"src/test/resources/feature"},
-        glue = {"org.example.stepdefinitions"},
-        monochrome = true,
-        tags = "@Login"
+@CucumberOptions(plugin = {"pretty",
+  "summary",
+  "html:target/cucumber/report.html",
+  "me.jvt.cucumber.report.PrettyReports:target/cucumber"},
+  features = {"src/test/resources/feature"},
+  glue = {"org.example.stepdefinitions"},
+  monochrome = true,
+  tags = "@Login"
 )
 public class RunCucumberTest {
 
-    @BeforeClass
-    public static void initialize() {
-        AppiumServerManager.startAppiumServer();
-        if (Objects.isNull(DriverManager.getDriver())) {
-            DriverFactory.initializeDriver(MobilePlatformName.valueOf(
-                    Optional.ofNullable(System.getProperty("platformName"))
-                            .orElse(getConfig(ConfigJson.PLATFORM)).toUpperCase()));
-        }
+  @BeforeClass
+  public static void initialize() {
+    AppiumServerManager.startAppiumServer();
+    if (Objects.isNull(DriverManager.getDriver())) {
+      DriverFactory.initializeDriver(MobilePlatformName.valueOf(
+        Optional.ofNullable(System.getProperty("platformName"))
+          .orElse(getConfig(ConfigJson.PLATFORM)).toUpperCase()));
     }
+  }
 
-    @AfterClass
-    public static void quit() {
-        if (Objects.nonNull(DriverManager.getDriver())) {
-            DriverFactory.quitDriver();
-        }
-        AppiumServerManager.stopAppiumServer();
+  @AfterClass
+  public static void quit() {
+    if (Objects.nonNull(DriverManager.getDriver())) {
+      DriverFactory.quitDriver();
     }
+    AppiumServerManager.stopAppiumServer();
+  }
 }

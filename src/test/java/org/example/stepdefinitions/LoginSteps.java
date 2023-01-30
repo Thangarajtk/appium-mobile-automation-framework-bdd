@@ -8,33 +8,33 @@ import org.junit.Assert;
 
 public class LoginSteps {
 
-    @When("^User enter username as \"([^\"]*)\"$")
-    public void userEnterUsernameAs(String username) {
-        new LoginPage().setUsername(username);
-    }
+  @When("^User enter username as \"([^\"]*)\"$")
+  public void userEnterUsernameAs(String username) {
+    new LoginPage().setUsername(username);
+  }
 
-    @When("^User enter password as \"([^\"]*)\"$")
-    public void userEnterPasswordAs(String password) {
-        new LoginPage().setPassword(password);
-    }
+  @When("^User enter password as \"([^\"]*)\"$")
+  public void userEnterPasswordAs(String password) {
+    new LoginPage().setPassword(password);
+  }
 
-    @When("^clicks on login$")
-    public void clickOnLogin() {
-        new LoginPage().tapOnLogin();
-    }
+  @When("^clicks on login$")
+  public void clickOnLogin() {
+    new LoginPage().tapOnLogin();
+  }
 
-    @Then("^login should fail with an error \"([^\"]*)\"$")
-    public void loginShouldFailWithAnError(String err) {
-        Assert.assertEquals(new LoginPage().getErrorText(), err);
-    }
+  @Then("^login should fail with an error \"([^\"]*)\"$")
+  public void loginShouldFailWithAnError(String err) {
+    Assert.assertEquals(new LoginPage().getErrorText(), err);
+  }
 
-    @Then("^User should see Products page with title \"([^\"]*)\"$")
-    public void userShouldSeeProductsPageWithTitle(String title) {
-        Assert.assertEquals(new ProductPage().getProductPageTitle(), title);
-    }
+  @Then("^User should see Products page with title \"([^\"]*)\"$")
+  public void userShouldSeeProductsPageWithTitle(String title) {
+    Assert.assertEquals(new ProductPage().getProductPageTitle(), title);
+  }
 
-    @When("User enter username: {string} and password: {string}")
-    public void userEnterUsernameAndPassword(String username, String password) {
-        new LoginPage().setPassword(username).setPassword(password);
-    }
+  @When("User enter username: {string} and password: {string}")
+  public void userEnterUsernameAndPassword(String username, String password) {
+    new LoginPage().setPassword(username).setPassword(password);
+  }
 }
