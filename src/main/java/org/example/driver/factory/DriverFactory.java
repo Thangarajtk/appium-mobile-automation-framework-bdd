@@ -4,13 +4,12 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import org.example.driver.Drivers;
-import org.example.driver.manager.DriverManager;
+import org.example.driver.manager.AndroidManager;
+import org.example.driver.manager.IosManager;
 import org.example.enums.MobilePlatformName;
 
 import java.util.EnumMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.function.Supplier;
 
 import static org.example.enums.MobilePlatformName.ANDROID;
@@ -23,19 +22,11 @@ public final class DriverFactory {
     new EnumMap<>(MobilePlatformName.class);
 
   static {
-    DRIVER_TYPE_MAP.put(ANDROID, Drivers::createAndroidDriver);
-    DRIVER_TYPE_MAP.put(IOS, Drivers::createIOSDriver);
+    DRIVER_TYPE_MAP.put(ANDROID, AndroidManager::createAndroidDriver);
+    DRIVER_TYPE_MAP.put(IOS, IosManager::createIOSDriver);
   }
 
-  public static void initializeDriver(MobilePlatformName mobilePlatformName) {
-    AppiumDriver<MobileElement> driver = DRIVER_TYPE_MAP.get(mobilePlatformName).get();
-    DriverManager.setAppiumDriver(driver);
-  }
-
-  public static void quitDriver() {
-    if (Objects.nonNull(DriverManager.getDriver())) {
-      DriverManager.getDriver().quit();
-      DriverManager.unload();
-    }
+  public static AppiumDriver<MobileElement> getDriver(MobilePlatformName mobilePlatformName) {
+    return DRIVER_TYPE_MAP.get(mobilePlatformName).get();
   }
 }

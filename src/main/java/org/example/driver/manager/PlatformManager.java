@@ -6,17 +6,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class PlatformManager {
 
-    private static final ThreadLocal<String> platformName = new ThreadLocal<>();
+  private static final ThreadLocal<String> PLATFORM_NAME = new ThreadLocal<>();
 
-    public static String getPlatformName() {
-        return platformName.get();
-    }
+  public static String getPlatformName() {
+    return PLATFORM_NAME.get();
+  }
 
-    public static void setPlatformName(String platform) {
-        platformName.set(platform);
-    }
+  public static void setPlatformName(String platform) {
+    PLATFORM_NAME.set(platform);
+  }
 
-    public static void removePlatformName() {
-        platformName.remove();
-    }
+  public static void removePlatformName() {
+    PLATFORM_NAME.remove();
+  }
 }
