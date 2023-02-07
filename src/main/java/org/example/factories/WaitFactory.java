@@ -37,11 +37,25 @@ public final class WaitFactory {
       .until(ExpectedConditions.visibilityOfElementLocated(by));
   private static final Function<By, WebElement> NONE_BY_WEB_ELEMENT_FUNCTION = by -> DriverManager.getDriver().findElement(by);
 
+  private static final Map<WaitStrategy, Function<MobileElement, WebElement>> WAIT_STRATEGY_MOBILE_ELEMENT_FUNCTION_MAP =
+    new EnumMap<>(WaitStrategy.class);
+
+  private static final Function<MobileElement, WebElement> CLICKABLE_MOBILE_ELEMENT_FUNCTION =
+    mobileElement -> new WebDriverWait(DriverManager.getDriver(), FrameworkConstants.EXPLICIT_WAIT)
+      .until(ExpectedConditions.elementToBeClickable(mobileElement));
+  private static final Function<MobileElement, WebElement> VISIBLE_MOBILE_ELEMENT_FUNCTION =
+    mobileElement -> new WebDriverWait(DriverManager.getDriver(), FrameworkConstants.EXPLICIT_WAIT)
+      .until(ExpectedConditions.visibilityOf(mobileElement));
+  private static final Function<MobileElement, WebElement> NONE_MOBILE_ELEMENT_FUNCTION = mobileElement -> mobileElement;
+
   static {
     WAIT_STRATEGY_FUNCTION_MAP.put(CLICKABLE, CLICKABLE_BY_WEB_ELEMENT_FUNCTION);
     WAIT_STRATEGY_FUNCTION_MAP.put(PRESENCE, PRESENCE_BY_WEB_ELEMENT_FUNCTION);
     WAIT_STRATEGY_FUNCTION_MAP.put(VISIBLE, VISIBLE_BY_WEB_ELEMENT_FUNCTION);
     WAIT_STRATEGY_FUNCTION_MAP.put(NONE, NONE_BY_WEB_ELEMENT_FUNCTION);
+    WAIT_STRATEGY_MOBILE_ELEMENT_FUNCTION_MAP.put(CLICKABLE, CLICKABLE_MOBILE_ELEMENT_FUNCTION);
+    WAIT_STRATEGY_MOBILE_ELEMENT_FUNCTION_MAP.put(VISIBLE, VISIBLE_MOBILE_ELEMENT_FUNCTION);
+    WAIT_STRATEGY_MOBILE_ELEMENT_FUNCTION_MAP.put(NONE, NONE_MOBILE_ELEMENT_FUNCTION);
   }
 
   public static WebElement explicitlyWaitForElementLocatedBy(WaitStrategy waitStrategy, By by) {
@@ -49,20 +63,6 @@ public final class WaitFactory {
   }
 
   public static WebElement explicitlyWaitForElement(WaitStrategy waitStrategy, MobileElement mobileElement) {
-    WebElement element = null;
-    switch (waitStrategy) {
-      case CLICKABLE:
-        element = new WebDriverWait(DriverManager.getDriver(), FrameworkConstants.EXPLICIT_WAIT)
-          .until(ExpectedConditions.elementToBeClickable(mobileElement));
-        break;
-      case VISIBLE:
-        element = new WebDriverWait(DriverManager.getDriver(), FrameworkConstants.EXPLICIT_WAIT)
-          .until(ExpectedConditions.visibilityOf(mobileElement));
-        break;
-      case NONE:
-        element = mobileElement;
-        break;
-    }
-    return element;
+    return WAIT_STRATEGY_MOBILE_ELEMENT_FUNCTION_MAP.get(waitStrategy).apply(mobileElement);
   }
 }
