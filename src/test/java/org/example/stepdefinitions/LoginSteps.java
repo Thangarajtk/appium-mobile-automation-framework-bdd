@@ -35,6 +35,6 @@ public class LoginSteps {
 
   @When("User enter username: {string} and password: {string}")
   public void userEnterUsernameAndPassword(String username, String password) {
-    new LoginPage().setPassword(username).setPassword(password);
+    new LoginPage().setUsername(username).setPassword(password);
   }
 }
