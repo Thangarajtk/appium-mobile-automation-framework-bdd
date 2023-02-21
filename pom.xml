@@ -7,7 +7,6 @@
     <groupId>org.example</groupId>
     <artifactId>appium-mobile-automation-framework-bdd</artifactId>
     <version>1.0-SNAPSHOT</version>
-
     <name>appium-mobile-automation-framework-bdd</name>
     <url>http://maven.apache.org</url>
 
@@ -17,14 +16,14 @@
         <maven.compiler.target>11</maven.compiler.target>
         <cucumber.version>7.10.1</cucumber.version>
         <appium-java-client.version>7.6.0</appium-java-client.version>
-        <extent-reports.version>5.0.9</extent-reports.version>
         <jackson.version>2.14.0</jackson.version>
         <lombok.version>1.18.24</lombok.version>
         <commons-io.version>2.11.0</commons-io.version>
         <json.version>20220924</json.version>
         <gherkin.version>25.0.2</gherkin.version>
-        <reporting-plugin.version>7.3.0</reporting-plugin.version>
+        <maven-cucumber-reporting.version>5.7.4</maven-cucumber-reporting.version>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+        <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
         <maven-checkstyle-plugin.version>3.2.0</maven-checkstyle-plugin.version>
         <checkstyle.config>checkstyle/checkstyle.xml</checkstyle.config>
         <checkstyle.suppress>checkstyle/checkstyle-suppression.xml</checkstyle.suppress>
@@ -81,13 +80,6 @@
             <version>1.15</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/com.aventstack/extentreports -->
-        <dependency>
-            <groupId>com.aventstack</groupId>
-            <artifactId>extentreports</artifactId>
-            <version>${extent-reports.version}</version>
-        </dependency>
-
         <!-- https://mvnrepository.com/artifact/org.json/json -->
         <dependency>
             <groupId>org.json</groupId>
@@ -116,11 +108,10 @@
             <version>${lombok.version}</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/me.jvt.cucumber/reporting-plugin -->
         <dependency>
-            <groupId>me.jvt.cucumber</groupId>
-            <artifactId>reporting-plugin</artifactId>
-            <version>${reporting-plugin.version}</version>
+            <groupId>net.masterthought</groupId>
+            <artifactId>maven-cucumber-reporting</artifactId>
+            <version>${maven-cucumber-reporting.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-checkstyle-plugin -->
@@ -146,6 +137,12 @@
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven-surefire-plugin.version}</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <version>${maven-checkstyle-plugin.version}</version>
                 <executions>
@@ -167,6 +164,41 @@
                     <failOnViolation>true</failOnViolation>
                     <includeTestSourceDirectory>true</includeTestSourceDirectory>
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>net.masterthought</groupId>
+                <artifactId>maven-cucumber-reporting</artifactId>
+                <version>${maven-cucumber-reporting.version}</version>
+                <executions>
+                    <execution>
+                        <id>execution</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <projectName>Mobile - Test Automation Framework</projectName>
+                            <outputDirectory>${project.build.directory}/cucumber-maven-html-report</outputDirectory>
+                            <inputDirectory>${project.build.directory}/cucumber-json-output</inputDirectory>
+                            <jsonFiles>
+                                <param>**/cucumber.json</param>
+                            </jsonFiles>
+                            <setSkippedAsNotFailing>true</setSkippedAsNotFailing>
+                            <!-- optional, set true to group features by its Ids -->
+                            <mergeFeaturesById>false</mergeFeaturesById>
+                            <!-- optional, set true to get a final report with the latest results
+                                of the same test from different test runs -->
+                            <mergeFeaturesWithRetest>false</mergeFeaturesWithRetest>
+                            <!-- optional, set true to fail build on test failures -->
+                            <checkBuildResult>false</checkBuildResult>
+                            <classifications>
+                                <version>${project.version}</version>
+                                <platform>${os.name}</platform>
+                            </classifications>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
 
         </plugins>

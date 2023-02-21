@@ -6,6 +6,8 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.remote.AndroidMobileCapabilityType;
 import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.remote.MobileCapabilityType;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.example.constants.FrameworkConstants;
 import org.example.customexceptions.DriverInitializationException;
 import org.example.enums.ConfigJson;
@@ -18,11 +20,8 @@ import java.util.Optional;
 import static org.example.utils.configloader.JsonParser.getConfig;
 import static org.openqa.selenium.remote.CapabilityType.PLATFORM_NAME;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class AndroidManager {
-
-  private AndroidManager() {
-
-  }
 
   public static AppiumDriver<MobileElement> createAndroidDriver() {
     try {
