@@ -33,7 +33,8 @@ public final class AppiumServerManager {
     if (PropertyUtils.getPropertyValue(ConfigProperties.START_APPIUM_SERVER).equalsIgnoreCase("yes") &&
       !AppiumServerManager.checkIfServerIsRunning()) {
       //Build the Appium service
-      AppiumServiceBuilder builder = new AppiumServiceBuilder();
+      AppiumServiceBuilder builder = new AppiumServiceBuilder()
+        .withArgument(() -> "--base-path", "/wd/hub");
       builder.usingDriverExecutable(new File(FrameworkConstants.NODEJS_PATH));
       builder.withAppiumJS(new File(FrameworkConstants.APPIUM_JS_PATH));
       builder.withIPAddress(FrameworkConstants.APPIUM_SERVER_HOST);
