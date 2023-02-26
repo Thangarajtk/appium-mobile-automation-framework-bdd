@@ -16,7 +16,7 @@ public final class FrameworkConstants {
   public static final String RESOURCES_PATH = "src/test/resources";
   public static final String APPIUM_SERVER_HOST = "127.0.0.1";
   public static final int APPIUM_SERVER_PORT = 4723;
-  public static final String APPIUM_JS_PATH = System.getenv("APPIUM_HOME") + File.separator + "main.js";
+  public static final String APPIUM_JS_PATH = System.getenv("APPIUM_JS");
   public static final String ANDROID_APK_PATH =
     PROJECT_PATH + File.separator + RESOURCES_PATH + File.separator + "app" + File.separator +
       "Android.SauceLabs.Mobile.Sample.app.2.7.1.apk";

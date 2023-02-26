@@ -11,7 +11,10 @@ Mobile automation framework using appium - BDD
    and [IntelliJ IDEA](https://www.jetbrains.com/idea/download/)
 2) Install [NodeJS](https://nodejs.org/en/download/)
 3) Install [Android studio](https://developer.android.com/studio)
-4) Install Appium Server using npm (CLI) command `npm install -g appium`. Appium server version 1.22.3
+4) Install Appium Server (v2.x) using npm (CLI) command `npm install -g appium@next`
+```
+   Appium server version 2.0.0-beta.55
+```
 
 ```
 Command to check the installed appium version: `appium --version`
