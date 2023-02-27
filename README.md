@@ -15,7 +15,11 @@ Mobile automation framework using appium - BDD
 ```
    Appium server version 2.0.0-beta.55
 ```
-
+This will install the Appium server only, but no drivers. Install the latest versions of the XCUITest and UiAutomator2 drivers, after installing Appium you would run the following commands:
+```
+appium driver install uiautomator2
+appium driver install xcuitest
+```
 ```
 Command to check the installed appium version: `appium --version`
 ```

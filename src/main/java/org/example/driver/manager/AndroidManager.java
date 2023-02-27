@@ -34,7 +34,7 @@ public final class AndroidManager {
       if (getConfig(ConfigJson.ANDROID_EMULATOR).equalsIgnoreCase("yes")) {
         options.setAvd(Optional.ofNullable(System.getProperty("deviceName"))
                          .orElse(getConfig(ConfigJson.ANDROID_DEVICE_NAME)))
-          .setAvdLaunchTimeout(Duration.ofDays(Integer.parseInt(getConfig(ConfigJson.AVD_LAUNCH_TIMEOUT))));
+          .setAvdLaunchTimeout(Duration.ofMillis(Long.parseLong(getConfig(ConfigJson.AVD_LAUNCH_TIMEOUT))));
       }
       return new AndroidDriver(new URL(getConfig(ConfigJson.APPIUM_URL)), options);
     } catch (Exception e) {
