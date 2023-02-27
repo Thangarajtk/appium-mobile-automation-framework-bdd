@@ -1,7 +1,6 @@
 package org.example.driver.factory;
 
 import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.MobileElement;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.example.driver.manager.AndroidManager;
@@ -18,7 +17,7 @@ import static org.example.enums.MobilePlatformName.IOS;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class DriverFactory {
 
-  private static final Map<MobilePlatformName, Supplier<AppiumDriver<MobileElement>>> DRIVER_TYPE_MAP =
+  private static final Map<MobilePlatformName, Supplier<AppiumDriver>> DRIVER_TYPE_MAP =
     new EnumMap<>(MobilePlatformName.class);
 
   static {
@@ -26,7 +25,7 @@ public final class DriverFactory {
     DRIVER_TYPE_MAP.put(IOS, IosManager::createIOSDriver);
   }
 
-  public static AppiumDriver<MobileElement> getDriver(MobilePlatformName mobilePlatformName) {
+  public static AppiumDriver getDriver(MobilePlatformName mobilePlatformName) {
     return DRIVER_TYPE_MAP.get(mobilePlatformName).get();
   }
 }

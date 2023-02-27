@@ -1,27 +1,27 @@
 package org.example.pageobjects;
 
-import io.appium.java_client.MobileElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.iOSXCUITFindBy;
 import org.example.enums.WaitStrategy;
 import org.example.pageobjects.screen.ScreenActions;
+import org.openqa.selenium.WebElement;
 
 public class LoginPage extends ScreenActions {
 
   @AndroidFindBy(accessibility = "test-Username")
   @iOSXCUITFindBy(accessibility = "test-Username")
-  private static MobileElement txtFieldUsername;
+  private static WebElement txtFieldUsername;
 
   @AndroidFindBy(accessibility = "test-Password")
   @iOSXCUITFindBy(accessibility = "test-Password")
-  private static MobileElement txtFieldPassword;
+  private static WebElement txtFieldPassword;
 
   @AndroidFindBy(accessibility = "test-LOGIN")
   @iOSXCUITFindBy(accessibility = "test-LOGIN")
-  private static MobileElement btnLogin;
+  private static WebElement btnLogin;
 
   @AndroidFindBy(xpath = "//android.view.ViewGroup[@content-desc='test-Error message']/android.widget.TextView")
-  private static MobileElement errorMessage;
+  private static WebElement errorMessage;
 
   public boolean isLoginPageDisplayed() {
     return isElementDisplayed(txtFieldUsername);
