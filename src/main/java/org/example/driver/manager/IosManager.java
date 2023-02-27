@@ -1,7 +1,6 @@
 package org.example.driver.manager;
 
 import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.MobileElement;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.remote.IOSMobileCapabilityType;
@@ -23,7 +22,7 @@ import static org.openqa.selenium.remote.CapabilityType.PLATFORM_NAME;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class IosManager {
 
-  public static AppiumDriver<MobileElement> createIOSDriver() {
+  public static AppiumDriver createIOSDriver() {
     try {
       var capability = new DesiredCapabilities();
       capability.setCapability(PLATFORM_NAME, Platform.IOS);
@@ -41,7 +40,7 @@ public final class IosManager {
       capability.setCapability("webkitDebugProxyPort", Optional.ofNullable(System.getProperty("webkitDebugProxyPort"))
         .orElse(getConfig(ConfigJson.IOS_WEBKIT_DEBUG_PROXY_PORT))); // For web view/Safari browser testing on real device
 
-      return new IOSDriver<>(new URL(getConfig(ConfigJson.APPIUM_URL)), capability);
+      return new IOSDriver(new URL(getConfig(ConfigJson.APPIUM_URL)), capability);
     } catch (Exception e) {
       throw new DriverInitializationException("Failed to initialize driver. Please check the desired capabilities", e);
     }

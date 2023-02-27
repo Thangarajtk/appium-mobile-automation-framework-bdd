@@ -2,29 +2,19 @@ package org.example.pageobjects.screen;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Ordering;
-import io.appium.java_client.MobileElement;
-import io.appium.java_client.MultiTouchAction;
-import io.appium.java_client.TouchAction;
+import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.PowerACState;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
-import io.appium.java_client.touch.TapOptions;
-import io.appium.java_client.touch.WaitOptions;
-import io.appium.java_client.touch.offset.ElementOption;
-import io.appium.java_client.touch.offset.PointOption;
 import org.example.driver.manager.DriverManager;
 import org.example.enums.MobileFindBy;
 import org.example.enums.WaitStrategy;
 import org.example.factories.WaitFactory;
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.interactions.touch.TouchActions;
 import org.openqa.selenium.support.PageFactory;
 
-import java.time.Duration;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
@@ -42,23 +32,25 @@ import static org.example.enums.MobileFindBy.XPATH;
 
 public class ScreenActions {
 
-  private final Map<MobileFindBy, Function<String, MobileElement>> mobileFindByFunctionMap = new EnumMap<>(MobileFindBy.class);
-  private final Function<String, MobileElement> findByXpath =
-    mobileElement -> DriverManager.getDriver().findElementByXPath(mobileElement);
-  private final Function<String, MobileElement> findByCss =
-    mobileElement -> DriverManager.getDriver().findElementByCssSelector(mobileElement);
-  private final Function<String, MobileElement> findById = mobileElement -> DriverManager.getDriver().findElementById(mobileElement);
-  private final Function<String, MobileElement> findByName =
-    mobileElement -> DriverManager.getDriver().findElementByName(mobileElement);
-  private final Function<String, MobileElement> findByAccessibilityId =
-    mobileElement -> DriverManager.getDriver().findElementByAccessibilityId(mobileElement);
-  private final Function<String, MobileElement> findByClassName =
-    mobileElement -> DriverManager.getDriver().findElementByClassName(mobileElement);
+  private final Map<MobileFindBy, Function<String, WebElement>> mobileFindByFunctionMap = new EnumMap(MobileFindBy.class);
+  private final Function<String, WebElement> findByXpath =
+    mobileElement -> DriverManager.getDriver().findElement(AppiumBy.xpath(mobileElement));
+  private final Function<String, WebElement> findByCss =
+    mobileElement -> DriverManager.getDriver().findElement(AppiumBy.cssSelector(mobileElement));
+  private final Function<String, WebElement> findById =
+    mobileElement -> DriverManager.getDriver().findElement(AppiumBy.id(mobileElement));
+  private final Function<String, WebElement> findByName =
+    mobileElement -> DriverManager.getDriver().findElement(AppiumBy.name(mobileElement));
+  private final Function<String, WebElement> findByAccessibilityId =
+    mobileElement -> DriverManager.getDriver().findElement(AppiumBy.accessibilityId(mobileElement));
+  private final Function<String, WebElement> findByClassName =
+    mobileElement -> DriverManager.getDriver().findElement(AppiumBy.className(mobileElement));
+
   protected ScreenActions() {
     PageFactory.initElements(new AppiumFieldDecorator(DriverManager.getDriver()), this);
   }
 
-  private MobileElement getMobileElement(String mobileElement, MobileFindBy mobileFindBy) {
+  private WebElement getMobileElement(String mobileElement, MobileFindBy mobileFindBy) {
     if (mobileFindByFunctionMap.isEmpty()) {
       mobileFindByFunctionMap.put(XPATH, findByXpath);
       mobileFindByFunctionMap.put(CSS, findByCss);
@@ -74,19 +66,19 @@ public class ScreenActions {
     DriverManager.getDriver().manage().timeouts().pageLoadTimeout(waitTime, TimeUnit.SECONDS);
   }
 
-  protected String getTextFromAttribute(WaitStrategy waitStrategy, MobileElement element) {
+  protected String getTextFromAttribute(WaitStrategy waitStrategy, WebElement element) {
     return WaitFactory.explicitlyWaitForElement(waitStrategy, element).getAttribute("text");
   }
 
-  protected String getText(MobileElement element, WaitStrategy waitStrategy) {
+  protected String getText(WebElement element, WaitStrategy waitStrategy) {
     return WaitFactory.explicitlyWaitForElement(waitStrategy, element).getText();
   }
 
-  protected boolean isElementDisplayed(MobileElement element) {
+  protected boolean isElementDisplayed(WebElement element) {
     return element.isDisplayed();
   }
 
-  protected void doClear(MobileElement element) {
+  protected void doClear(WebElement element) {
     element.clear();
   }
 
@@ -94,17 +86,7 @@ public class ScreenActions {
     DriverManager.getDriver().getStatus();
   }
 
-  protected void setOrientation(ScreenOrientation screenOrientationType) {
-    Consumer<ScreenOrientation> screenOrientationConsumer = screenOrientation ->
-      DriverManager.getDriver().rotate(screenOrientation);
-    screenOrientationConsumer.accept(screenOrientationType);
-  }
-
-  protected void backgroundApp() {
-    DriverManager.getDriver().runAppInBackground(Duration.ofSeconds(10));
-  }
-
-  protected String getElementAttribute(MobileElement element, String attributeName) {
+  protected String getElementAttribute(WebElement element, String attributeName) {
     return element.getAttribute(attributeName);
   }
 
@@ -125,42 +107,7 @@ public class ScreenActions {
       .perform();
   }
 
-  protected void performSingleTap(WebElement element) {
-    new TouchActions(DriverManager.getDriver())
-      .singleTap(element)
-      .perform();
-  }
-
-  protected void performDoubleTap(WebElement element) {
-    new TouchActions(DriverManager.getDriver())
-      .doubleTap(element)
-      .perform();
-  }
-
-  protected void performLongTap(WebElement element) {
-    new TouchActions(DriverManager.getDriver())
-      .longPress(element)
-      .perform();
-  }
-
-  protected void touchScreenScroll(WebElement element, int x, int y) {
-    new TouchActions(DriverManager.getDriver())
-      .scroll(element, x, y)
-      .perform();
-  }
-
-  protected void hideKeyboard() {
-    DriverManager.getDriver().hideKeyboard();
-  }
-
-  protected void scrollClickAndroid(String scrollableListId, String selectionText) {
-    ((AndroidDriver<MobileElement>) DriverManager.getDriver()).findElementByAndroidUIAutomator(
-      "new UiScrollable(new UiSelector().scrollable(true)."
-        + "resourceId(\"" + scrollableListId + "\"))"
-        + ".setAsHorizontalList().scrollIntoView(new UiSelector().text(\"" + selectionText + "\"))").click();
-  }
-
-  protected void click(MobileElement element) {
+  protected void click(WebElement element) {
     element.click();
   }
 
@@ -168,13 +115,13 @@ public class ScreenActions {
     click(getMobileElement(element, elementType));
   }
 
-  protected void enter(MobileElement element, String value) {
+  protected void enter(WebElement element, String value) {
     WaitFactory.explicitlyWaitForElement(WaitStrategy.VISIBLE, element);
     doClear(element);
     element.sendKeys(value);
   }
 
-  protected void enterValueAndPressEnter(MobileElement element, String value) {
+  protected void enterValueAndPressEnter(WebElement element, String value) {
     doClear(element);
     element.sendKeys(value, Keys.ENTER);
   }
@@ -189,7 +136,7 @@ public class ScreenActions {
 
   protected void powerStateAndroid(PowerACState powerACState) {
     Consumer<PowerACState> powerStateConsumer = state ->
-      ((AndroidDriver<MobileElement>) DriverManager.getDriver()).setPowerAC(state);
+      ((AndroidDriver) DriverManager.getDriver()).setPowerAC(state);
     powerStateConsumer.accept(powerACState);
   }
 
@@ -222,23 +169,12 @@ public class ScreenActions {
   }
 
   /**
-   * Long press key
-   *
-   * @param element element
-   */
-  protected void longPress(MobileElement element) {
-    new TouchAction<>(DriverManager.getDriver())
-      .longPress(ElementOption.element(element))
-      .perform();
-  }
-
-  /**
    * Scroll to specific location
    *
    * @param element element
    * @param value   location
    */
-  protected void scrollToLocation(MobileElement element, int value) {
+  protected void scrollToLocation(WebElement element, int value) {
     HashMap<String, Double> scrollElement = new HashMap<>();
     scrollElement.put("startX", 0.50);
     scrollElement.put("startY", 0.95);
@@ -253,236 +189,5 @@ public class ScreenActions {
       return Ordering.natural().isOrdered(listToSort);
     }
     return false;
-  }
-
-  /**
-   * Touch Actions
-   *
-   * @param a1   axis 1
-   * @param b1   axis 2
-   * @param a2   axis 3
-   * @param b2   axis 4
-   * @param time time
-   */
-  private void touchActions(int a1, int b1, int a2, int b2, int time) {
-    new TouchAction<>(DriverManager.getDriver())
-      .press(PointOption.point(a1, b1))
-      .waitAction(WaitOptions.waitOptions(Duration.ofMillis(time)))
-      .moveTo(PointOption.point(a2, b2)).release()
-      .perform();
-  }
-
-  /**
-   * Swipe with axis
-   *
-   * @param x    x axis
-   * @param y    y axis
-   * @param x1   x1 axis
-   * @param y1   y1 axis
-   * @param time timeInMilli
-   */
-  protected void swipeAxis(int x, int y, int x1, int y1, int count, int time) {
-    for (int i = 0; i < count; i++) {
-      touchActions(x, y, x1, y1, time);
-    }
-  }
-
-  /**
-   * tap to element for 250sec
-   *
-   * @param androidElement element
-   */
-  protected void tapByElement(MobileElement androidElement) {
-    new TouchAction<>(DriverManager.getDriver())
-      .tap(TapOptions.tapOptions().withElement(ElementOption.element(androidElement)))
-      .waitAction(WaitOptions.waitOptions(Duration.ofMillis(250))).perform();
-  }
-
-  /**
-   * Tap by coordinates
-   *
-   * @param x x
-   * @param y y
-   */
-  protected void tapByCoordinates(int x, int y) {
-    new TouchAction<>(DriverManager.getDriver())
-      .tap(PointOption.point(x, y))
-      .waitAction(WaitOptions.waitOptions(Duration.ofMillis(250))).perform();
-  }
-
-  /**
-   * Press by element
-   *
-   * @param element element
-   * @param seconds time
-   */
-  protected void pressByElement(MobileElement element, long seconds) {
-    new TouchAction<>(DriverManager.getDriver())
-      .press(ElementOption.element(element))
-      .waitAction(WaitOptions.waitOptions(Duration.ofSeconds(seconds)))
-      .release()
-      .perform();
-  }
-
-  /**
-   * LongPress by element
-   *
-   * @param element element
-   * @param seconds time
-   */
-  protected void longPressByElement(MobileElement element, long seconds) {
-    new TouchAction<>(DriverManager.getDriver())
-      .longPress(ElementOption.element(element))
-      .waitAction(WaitOptions.waitOptions(Duration.ofSeconds(seconds)))
-      .release()
-      .perform();
-  }
-
-  /**
-   * Press by co-ordinates
-   *
-   * @param x       x
-   * @param y       y
-   * @param seconds time
-   */
-  protected void pressByCoordinates(int x, int y, long seconds) {
-    new TouchAction<>(DriverManager.getDriver())
-      .press(PointOption.point(x, y))
-      .waitAction(WaitOptions.waitOptions(Duration.ofSeconds(seconds)))
-      .release()
-      .perform();
-  }
-
-  /**
-   * Horizontal swipe by percentage
-   *
-   * @param startPercentage  start
-   * @param endPercentage    end
-   * @param anchorPercentage anchor
-   */
-  protected void horizontalSwipeByPercentage(double startPercentage, double endPercentage, double anchorPercentage) {
-    Dimension size = DriverManager.getDriver().manage().window().getSize();
-    int anchor = (int) (size.height * anchorPercentage);
-    int startPoint = (int) (size.width * startPercentage);
-    int endPoint = (int) (size.width * endPercentage);
-    new TouchAction<>(DriverManager.getDriver())
-      .press(PointOption.point(startPoint, anchor))
-      .waitAction(WaitOptions.waitOptions(Duration.ofMillis(1000)))
-      .moveTo(PointOption.point(endPoint, anchor))
-      .release().perform();
-  }
-
-  /**
-   * Vertical swipe by percentage
-   *
-   * @param startPercentage  start
-   * @param endPercentage    end
-   * @param anchorPercentage anchor
-   */
-  protected void verticalSwipeByPercentages(double startPercentage, double endPercentage, double anchorPercentage) {
-    Dimension size = DriverManager.getDriver().manage().window().getSize();
-    int anchor = (int) (size.width * anchorPercentage);
-    int startPoint = (int) (size.height * startPercentage);
-    int endPoint = (int) (size.height * endPercentage);
-
-    new TouchAction<>(DriverManager.getDriver())
-      .press(PointOption.point(anchor, startPoint))
-      .waitAction(WaitOptions.waitOptions(Duration.ofMillis(1000)))
-      .moveTo(PointOption.point(anchor, endPoint))
-      .release().perform();
-  }
-
-  /**
-   * Swipe by elements
-   *
-   * @param startElement start
-   * @param endElement   end
-   */
-  protected void swipeByElements(MobileElement startElement, MobileElement endElement) {
-    int startX = startElement.getLocation().getX() + (startElement.getSize().getWidth() / 2);
-    int startY = startElement.getLocation().getY() + (startElement.getSize().getHeight() / 2);
-
-    int endX = endElement.getLocation().getX() + (endElement.getSize().getWidth() / 2);
-    int endY = endElement.getLocation().getY() + (endElement.getSize().getHeight() / 2);
-
-    new TouchAction<>(DriverManager.getDriver())
-      .press(PointOption.point(startX, startY))
-      .waitAction(WaitOptions.waitOptions(Duration.ofMillis(1000)))
-      .moveTo(PointOption.point(endX, endY))
-      .release().perform();
-  }
-
-  /**
-   * Multitouch by element
-   *
-   * @param androidElement element
-   */
-  protected void multiTouchByElement(MobileElement androidElement) {
-    TouchAction<?> press = new TouchAction<>(DriverManager.getDriver())
-      .press(ElementOption.element(androidElement))
-      .waitAction(WaitOptions.waitOptions(Duration.ofSeconds(1)))
-      .release();
-
-    new MultiTouchAction(DriverManager.getDriver())
-      .add(press)
-      .perform();
-  }
-
-  /**
-   * Swipe touch (UP,DOWN,LEFT,RIGHT)
-   *
-   * @param direction direction
-   * @param count     count
-   */
-  protected void swipe(String direction, int count, int time) {
-    Dimension size = DriverManager.getDriver().manage().window().getSize();
-    switch (direction) {
-      case "left":
-      case "LEFT":
-        for (int i = 0; i < count; i++) {
-          int startx = (int) (size.width * 0.8);
-          int endx = (int) (size.width * 0.20);
-          int starty = size.height / 2;
-          touchActions(startx, starty, endx, starty, time);
-        }
-        break;
-      case "right":
-      case "RIGHT":
-        for (int j = 0; j < count; j++) {
-          int endx = (int) (size.width * 0.8);
-          int startx = (int) (size.width * 0.20);
-          int starty = size.height / 2;
-          touchActions(startx, starty, endx, starty, time);
-        }
-        break;
-      case "up":
-      case "UP":
-        for (int j = 0; j < count; j++) {
-          int starty = (int) (size.height * 0.80);
-          int endy = (int) (size.height * 0.20);
-          int startx = size.width / 2;
-          touchActions(startx, starty, startx, endy, time);
-        }
-        break;
-      case "down":
-      case "DOWN":
-        for (int j = 0; j < count; j++) {
-          int starty = (int) (size.height * 0.80);
-          int endy = (int) (size.height * 0.20);
-          int startx = size.width / 2;
-          touchActions(startx, endy, startx, starty, time);
-        }
-        break;
-      default:
-        break;
-    }
-  }
-
-  protected void closeApp() {
-    DriverManager.getDriver().closeApp();
-  }
-
-  protected void launchApp() {
-    DriverManager.getDriver().launchApp();
   }
 }

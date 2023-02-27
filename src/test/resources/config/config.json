@@ -13,5 +13,5 @@
   "ios_bundle_id": "",
   "ios_webkit_debug_proxy_port": "",
   "ios_wda_local_port": "",
-  "appium_url": "http://127.0.0.1:4723/wd/hub"
+  "appium_url": "http://127.0.0.1:4723"
 }
