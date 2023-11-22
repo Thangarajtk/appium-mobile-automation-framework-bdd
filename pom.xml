@@ -14,17 +14,17 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-        <cucumber.version>7.11.1</cucumber.version>
-        <appium-java-client.version>8.3.0</appium-java-client.version>
-        <jackson.version>2.14.2</jackson.version>
+        <cucumber.version>7.14.0</cucumber.version>
+        <appium-java-client.version>8.6.0</appium-java-client.version>
+        <jackson.version>2.15.1</jackson.version>
         <lombok.version>1.18.26</lombok.version>
         <commons-io.version>2.11.0</commons-io.version>
         <json.version>20230227</json.version>
         <gherkin.version>26.0.1</gherkin.version>
-        <maven-cucumber-reporting.version>5.7.5</maven-cucumber-reporting.version>
+        <maven-cucumber-reporting.version>5.7.7</maven-cucumber-reporting.version>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
-        <maven-checkstyle-plugin.version>3.2.0</maven-checkstyle-plugin.version>
+        <maven-checkstyle-plugin.version>3.3.0</maven-checkstyle-plugin.version>
         <checkstyle.config>checkstyle/checkstyle.xml</checkstyle.config>
         <checkstyle.suppress>checkstyle/checkstyle-suppression.xml</checkstyle.suppress>
     </properties>
@@ -120,10 +120,11 @@
             <artifactId>maven-checkstyle-plugin</artifactId>
             <version>${maven-checkstyle-plugin.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-support</artifactId>
-            <version>4.8.1</version>
+            <version>4.8.3</version>
         </dependency>
 
     </dependencies>

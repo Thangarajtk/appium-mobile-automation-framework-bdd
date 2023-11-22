@@ -32,17 +32,15 @@ public final class AppiumServerManager {
   public static void startAppiumServer() {
     if (PropertyUtils.getPropertyValue(ConfigProperties.START_APPIUM_SERVER).equalsIgnoreCase("yes") &&
       !AppiumServerManager.checkIfServerIsRunning()) {
-      //Build the Appium service
-      AppiumServiceBuilder builder = new AppiumServiceBuilder();
-      builder.usingDriverExecutable(new File(FrameworkConstants.NODEJS_PATH));
-      builder.withAppiumJS(new File(FrameworkConstants.APPIUM_JS_PATH));
-      builder.withIPAddress(FrameworkConstants.APPIUM_SERVER_HOST);
-      builder.usingPort(FrameworkConstants.APPIUM_SERVER_PORT);
-      builder.withArgument(GeneralServerFlag.SESSION_OVERRIDE);
-      builder.withArgument(GeneralServerFlag.ALLOW_INSECURE, "chromedriver_autodownload");
-      builder.withLogFile(new File(FrameworkConstants.getAppiumServerLogsPath()));
-      //Start the server with the builder
-      service = AppiumDriverLocalService.buildService(builder);
+      service = new AppiumServiceBuilder()
+        .usingDriverExecutable(new File(FrameworkConstants.NODEJS_PATH))
+        .withAppiumJS(new File(FrameworkConstants.APPIUM_JS_PATH))
+        .withIPAddress(FrameworkConstants.APPIUM_SERVER_HOST)
+        .usingPort(FrameworkConstants.APPIUM_SERVER_PORT)
+        .withArgument(GeneralServerFlag.SESSION_OVERRIDE)
+        .withArgument(GeneralServerFlag.ALLOW_INSECURE, "chromedriver_autodownload")
+        .withLogFile(new File(FrameworkConstants.getAppiumServerLogsPath()))
+        .build();
       service.start();
       service.clearOutPutStreams();
     }
